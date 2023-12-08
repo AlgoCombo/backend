@@ -4,7 +4,7 @@ import pandas as pd
 
 class RelativeStrengthIndexAlgorithm(BaseAlgorithm):
     _name = "Relative Strength Index Algorithm"
-    _description = "Relative Strength Index algorithm to test algocombo"
+    _description = "Uses RSI to assess the momentum of an asset, indicating overbought or oversold conditions. It generates buy signals when RSI is low (indicating oversold) and sell signals when RSI is high (indicating overbought), helping traders anticipate trend reversals"
 
     def __init__(self, inputs, timeframe='day', name=None, description=None, *args, **kwargs):
         super().__init__(inputs, timeframe, name, description, *args, **kwargs)

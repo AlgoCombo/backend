@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from algorithms.core.movingAverageAlgorithm import MovingAverageAlgorithm
 from algorithms.core.relativeStrengthIndexAlgorithm import RelativeStrengthIndexAlgorithm
+from algorithms.core.meanRevisionAlgorithm import MeanRevisionAlgorithm
 
 router = APIRouter()
 
@@ -27,10 +28,15 @@ async def get_signal(algorithm_name: str, request_body: get_signal_request = Bod
     elif algorithm_name == "RelativeStrengthIndexAlgorithm":
         algorithm_object = RelativeStrengthIndexAlgorithm(
             request_body.inputs, request_body.timeframe)
+    elif algorithm_name == "MeanRevisionAlgorithm":
+        algorithm_object = MeanRevisionAlgorithm(
+            request_body.inputs, request_body.timeframe)
     else:
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"message": "Invalid algorithm name"})
 
     signal = algorithm_object.get_signal(
         *request_body.args, **request_body.kwargs)
+    name = algorithm_object.name
+    description = algorithm_object.description
 
     return JSONResponse(status_code=status.HTTP_200_OK, content={"message": "Signal retreived successfully", "signal": signal})
