@@ -1,4 +1,4 @@
-from baseAlgorithm import BaseAlgorithm
+from algorithms.core.baseAlgorithm import BaseAlgorithm
 import pandas as pd
 
 
