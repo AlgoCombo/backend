@@ -11,8 +11,9 @@ router = APIRouter()
 
 
 class get_signal_request(BaseModel):
-    coin: str
-    timeframe: str = "daily",
+    coin1: str
+    coin2: str
+    timeframe: str = "daily"
     args: List = []
     kwargs: dict = {}
 
@@ -23,7 +24,7 @@ def get_signal(algorithm_name: str, request_body: get_signal_request = Body(...)
     Get the signal for the given algorithm
     """
     input_data = get_historical_quotes(
-        coin='aave')
+        request_body.coin1, request_body.coin2, request_body.timeframe, *request_body.args, **request_body.kwargs)
     algorithm_object = None
 
     if algorithm_name == "MovingAverageAlgorithm":

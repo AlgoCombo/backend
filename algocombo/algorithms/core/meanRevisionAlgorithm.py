@@ -13,7 +13,7 @@ class MeanRevisionAlgorithm(BaseAlgorithm):
         df = pd.DataFrame(self._inputs, columns=['timestamp', 'price'])
         return df
 
-    def mean_reversion_strategy(data, window=20, buy_threshold=-1, sell_threshold=1):
+    def get_signal(self, window=20, buy_threshold=-1, sell_threshold=1):
         """
         Function to determine buy/sell signals based on Mean Reversion Strategy.
 
@@ -23,7 +23,7 @@ class MeanRevisionAlgorithm(BaseAlgorithm):
         @param sell_threshold: float, threshold for generating a sell signal
         @return: int, buy (1), sell (-1), or hold (0) signal
         """
-
+        data = self.clean_data()
         # Calculate the rolling mean
         rolling_mean = data['price'].rolling(window=window).mean()
 
