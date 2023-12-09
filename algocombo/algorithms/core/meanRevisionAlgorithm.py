@@ -6,7 +6,7 @@ class MeanRevisionAlgorithm(BaseAlgorithm):
     _name = "Mean Revision Algorithm"
     _description = "Utilizes statistical measures like z-scores to identify buying or selling opportunities when asset prices deviate significantly from their historical mean. This strategy predicts price reversions to the mean, generating buy or sell signals based on price deviations"
 
-    def __init__(self, inputs, timeframe='day', name=None, description=None, *args, **kwargs):
+    def __init__(self, inputs, timeframe='daily', name=None, description=None, *args, **kwargs):
         super().__init__(inputs, timeframe, name, description, *args, **kwargs)
 
     def clean_data(self):

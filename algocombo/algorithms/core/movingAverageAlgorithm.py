@@ -6,7 +6,7 @@ class MovingAverageAlgorithm(BaseAlgorithm):
     _name = "Moving Average Algorithm"
     _description = "Analyzes short-term and long-term moving averages to determine market trends. It generates buy signals when short-term averages cross above long-term averages and sell signals when the opposite occurs, aiding in identifying potential entry and exit points"
 
-    def __init__(self, inputs, timeframe='day', name=None, description=None, *args, **kwargs):
+    def __init__(self, inputs, timeframe='daily', name=None, description=None, *args, **kwargs):
         super().__init__(inputs, timeframe, name, description, *args, **kwargs)
 
     def clean_data(self):
@@ -23,7 +23,6 @@ class MovingAverageAlgorithm(BaseAlgorithm):
         @param long_window: int
         @return: int the buy/sell signal for the latest available day
         """
-        print(short_window, long_window)
         data = self.clean_data()
         data['Short_MA'] = data['price'].rolling(
             window=short_window, min_periods=1).mean()

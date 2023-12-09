@@ -2,6 +2,7 @@ from typing import List, Union
 from fastapi import APIRouter, Body, status
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
+from utils.getHistoricalData import get_historical_quotes
 from algorithms.core.movingAverageAlgorithm import MovingAverageAlgorithm
 from algorithms.core.relativeStrengthIndexAlgorithm import RelativeStrengthIndexAlgorithm
 from algorithms.core.meanRevisionAlgorithm import MeanRevisionAlgorithm
@@ -10,27 +11,30 @@ router = APIRouter()
 
 
 class get_signal_request(BaseModel):
-    inputs: List[List[Union[str, float, int]]]
-    timeframe: str = "day",
+    coin: str
+    timeframe: str = "daily",
     args: List = []
     kwargs: dict = {}
 
 
 @router.post("/get_signal/{algorithm_name}", tags=["algorithms"])
-async def get_signal(algorithm_name: str, request_body: get_signal_request = Body(...)):
+def get_signal(algorithm_name: str, request_body: get_signal_request = Body(...)):
     """
     Get the signal for the given algorithm
     """
+    input_data = get_historical_quotes(
+        coin='aave')
     algorithm_object = None
+
     if algorithm_name == "MovingAverageAlgorithm":
         algorithm_object = MovingAverageAlgorithm(
-            request_body.inputs, request_body.timeframe)
+            input_data, request_body.timeframe)
     elif algorithm_name == "RelativeStrengthIndexAlgorithm":
         algorithm_object = RelativeStrengthIndexAlgorithm(
-            request_body.inputs, request_body.timeframe)
+            input_data, request_body.timeframe)
     elif algorithm_name == "MeanRevisionAlgorithm":
         algorithm_object = MeanRevisionAlgorithm(
-            request_body.inputs, request_body.timeframe)
+            input_data, request_body.timeframe)
     else:
         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"message": "Invalid algorithm name"})
 

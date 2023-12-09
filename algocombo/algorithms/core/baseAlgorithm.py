@@ -5,7 +5,7 @@ class BaseAlgorithm(ABC):
     _name = "Base Algorithm"
     _description = "Base algorithm class to extend for all algorithms"
 
-    def __init__(self, inputs, timeframe='day', name=None, description=None, * args, **kwargs):
+    def __init__(self, inputs, timeframe='daily', name=None, description=None, * args, **kwargs):
         self._inputs = inputs
         self._timeframe = timeframe
         if name is not None:
